@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, FlatList ,View, StyleSheet, Image } from "react-native";
-import SearchBar from "./SearchBar";
+import { Text, FlatList ,View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import SearchBar from "../Components/SearchBar";
 
-const UserListComponent = () => {
+const UserListComponent = ({navigation}) => {
+  
     const [searchTerm, setSearchTerm] = useState('')
     const [list,setList] = useState([])
     const fetchUser = async() => {
@@ -32,6 +33,9 @@ const UserListComponent = () => {
         
     }
     userRow = (user) => 
+        <TouchableOpacity onPress={() => {
+           navigation.navigate('UserDetails', {toUserDetail: user})
+        }}>
         <View style={styles.viewStyle}>
                  <View>
                      <Text style={styles.textStyle}>{user.name.first +" "} {user.name.last}</Text>
@@ -40,7 +44,8 @@ const UserListComponent = () => {
             <Image style={styles.imageStyle} source={{
                 uri: user.picture.medium
             }}></Image>
-        </View>
+            </View>
+        </TouchableOpacity>
 
     return (
         <View>
@@ -51,7 +56,7 @@ const UserListComponent = () => {
             }} />
             <FlatList
                 data={list}
-                 keyExtractor={(item,i) => i}
+                keyExtractor={(item,i) => i}
                 renderItem={ (listItem) => 
                     userRow(listItem.item)
                 }
