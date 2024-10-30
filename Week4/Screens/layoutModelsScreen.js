@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Text ,View, StyleSheet, Button } from "react-native";
+import React from "react";
+import { Text ,View, StyleSheet } from "react-native";
 
 const LayoutModels = () => {
     return (
@@ -10,7 +10,6 @@ const LayoutModels = () => {
             <Text style={styles.textThreeStyle}>Text 3</Text>
         </View>
     )
-
 }
  
 const styles = StyleSheet.create({
