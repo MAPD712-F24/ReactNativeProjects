@@ -29,21 +29,27 @@ const [list, setList] = useState([''])
       console.error('Database not initialized');
       return;
     }
-    try {
-    const result =  await db.runAsync(`INSERT INTO cities (city) VALUES (?)`,city);
-   
-      console.log("City inserted successfully:", city);
-    } catch (error) {
+      console.log("city to insert ", city)
+      const statement = await db.prepareAsync('INSERT INTO cities (city) VALUES ($value)');
+      try {
+        let result = await statement.executeAsync({ $value: city });
+            console.log("City inserted successfully:", city);
+
+      }
+     catch (error) {
       console.error('Error inserting city:', error);
     }
   };
 
     const fetchCities = async (query) => {
-        
-        fetch('http://gd.geobytes.com/AutoCompleteCity?&q='+query).
-            then(response => response.json()).then(data => { 
-                setList(data)
-            } )
+      if (query.length > 2) {
+        fetch('http://gd.geobytes.com/AutoCompleteCity?&q=' + query).
+          then(response => response.json()).then(data => {
+            setList(data)
+          })
+      } else {
+        setList([])
+      }
     } 
     useEffect(() => { 
         console.log("In Use Effect")
